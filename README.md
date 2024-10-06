@@ -1,59 +1,24 @@
-#validate.py 
-#We will prompts the user to enter a password. Check whether the password is safe to use or not and output a
-#message stating either GOOD PASSWORD or BAD PASSWORD and use accessesing files to do that and at th end print the percentage of bad passwords. 
+This program prompts the user to enter the name of a file containing a list of passwords. It reads the passwords from the file and categorizes them as either "Good Passwords" or "Bad Passwords" based on predefined safety criteria. The program then outputs the categorized lists and calculates the percentage of bad passwords from the total number of passwords processed.
 
-def main():
-    file_name = input("Enter file to process: ")
-    
-    try:
-        with open(file_name, 'r') as file:
-            passwords = file.readlines()
-    except FileNotFoundError:
-        print(f"{file_name} does not exist.")
-        return
-    
-    bad_passwords, good_passwords = categorize_passwords(passwords)
-    
-    print("Bad Passwords")
-    for password in bad_passwords:
-        print(password)
-    print()
-    print("Good Passwords")
-    for password in good_passwords:
-        print(password)
-    
-    total_passwords = len(bad_passwords) + len(good_passwords)
-    percent_bad = (len(bad_passwords) / total_passwords) * 100 if total_passwords > 0 else 0
-    
-    print(f"\n{percent_bad:.2f}% of passwords were bad.")
+Key Features:
+File Input:
 
-def categorize_passwords(passwords):
-    bad_passwords = []
-    good_passwords = []
-    
-    for password in passwords:
-        password = password.strip()
-        if is_good_password(password):
-            good_passwords.append(password)
-        else:
-            bad_passwords.append(password)
-    
-    return bad_passwords, good_passwords
+The program prompts the user to enter the filename to process.
+It attempts to open the specified file for reading. If the file does not exist, an error message is displayed, and the program terminates gracefully.
+Password Categorization:
 
-def is_good_password(password):
-    if len(password) < 9:
-        return False
-    if sum(1 for c in password if c.isupper()) < 3:
-        return False
-    if sum(1 for c in password if c.isdigit()) < 3:
-        return False
-    if ' ' in password:
-        return False
-    return True
+The program reads all passwords from the file, stripping any leading or trailing whitespace.
+It categorizes each password into "Good" or "Bad" based on the following criteria:
+A password must be at least 9 characters long.
+It must contain at least 3 uppercase letters.
+It must have at least 3 digits.
+It must not contain any spaces.
+Output:
 
-if __name__ == "__main__":
-    main()
+After processing, the program prints out the categorized lists of passwords:
+"Bad Passwords": lists all passwords deemed unsafe.
+"Good Passwords": lists all passwords deemed safe.
+It calculates and displays the percentage of bad passwords relative to the total number of passwords processed, formatted to two decimal places.
+Error Handling:
 
-
-
-
+The program includes error handling to manage cases where the input file does not exist.
